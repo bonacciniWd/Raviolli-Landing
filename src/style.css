@@ -1,0 +1,26 @@
+/* Neutralize the Vite starter theme to avoid conflicting layout/background */
+:root {
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  background: black;
+}
+
+#app { isolation: isolate; }
+
+/* Global custom cursor */
+html, body, * {
+  cursor: url('./assets/pointer.svg') 0 0, auto !important;
+}
+
+/* Ensure interactive elements also use the custom cursor */
+a, button, [role="button"], input, select, textarea, label {
+  cursor: url('./assets/pointer.svg') 0 0, pointer !important;
+}
