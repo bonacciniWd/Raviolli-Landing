@@ -247,8 +247,8 @@ const showIdle = computed(() => !open.value.about && !open.value.projects && !op
 .store-bar{ display:flex; align-items:center; justify-content:space-between; gap:12px; }
 .store-bar h2{ font-size: 1rem; margin: 0; font-weight: 600; }
 .open-store{ color:#fff; border:1px solid #ffffff66; border-radius:8px; padding:6px 10px; text-decoration:none; }
-.store-picture{ display:block; width:100%; height: calc(100% - 36px); }
-.store-image{ width:100%; height:100%; object-fit: contain; border: 1px solid #ffffff22; border-radius: 10px; background:#111; }
+.store-picture{ display:block; width:100%; height: calc(100% - 36px); border: 1px solid #ffffff22; border-radius: 10px; overflow: hidden; background:#111; }
+.store-image{ width:100%; height:100%; object-fit: cover; display:block; }
 
 @media (max-width: 900px){
   .about-container{ grid-template-columns: 1fr; gap: 16px; }
