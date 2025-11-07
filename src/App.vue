@@ -11,7 +11,14 @@ const navItems = [
   <FloatingNavbar :items="navItems">
     
     <template #actions>
-      <RouterLink class="action" to="/lookbook">Lookbook</RouterLink>
+      <a
+        class="action"
+        href="https://raviollipress.com.br/pages/lookbook"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        LookBook
+      </a>
     </template>
   </FloatingNavbar>
 
