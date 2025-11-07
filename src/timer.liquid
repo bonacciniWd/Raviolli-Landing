@@ -1,0 +1,187 @@
+{% comment %}
+Countdown funcional configurável no editor Shopify.
+Você pode definir a data e hora finais do contador.
+{% endcomment %}
+
+<section id="countdown-section" class="countdown-container">
+  <div class="container">
+    <div class="time-box">
+      <span id="days">00</span>
+      <small>Dia</small>
+    </div>
+    <div class="time-box">
+      <span id="hours">00</span>
+      <small>Horas</small>
+    </div>
+    <div class="time-box">
+      <span id="minutes">00</span>
+      <small>Minutos</small>
+    </div>
+    <div class="time-box">
+      <span id="seconds">00</span>
+      <small>Segundos</small>
+    </div>
+  </div>
+  <div class="loader">
+    <lottie-player src="{{ 'assets/loader.json' | asset_url }}" autoplay loop style="width: 200px; height: 200px; margin: 0 auto;"></lottie-player>
+    <p id="loader-text">Misturando tintas... e um pouco de alma.</p>
+  </div>
+  <a href="https://landind.raviollipress.com.br" class="peek-button">Dar uma espiadinha --></a>
+</section>
+
+<style>
+.countdown-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 60px 0;
+  background: radial-gradient(circle at center, #555 0%, #222 100%);
+  color: #fff;
+  font-family: Helvetica, Arial, sans-serif;
+  min-height: 100vh;
+}
+
+.countdown-container .container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 25px;
+}
+
+.loader {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.loader p {
+  font-size: 18px;
+  color: #ccc;
+  font-style: italic;
+}
+
+.peek-button {
+  display: inline-block;
+  padding: 15px 30px;
+  border: 2px solid #fff;
+  border-radius: 50px;
+  color: #fff;
+  text-decoration: none;
+  font-size: 18px;
+  margin-top: 20px;
+  transition: background-color 0.3s ease;
+}
+
+.peek-button:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.time-box {
+  text-align: center;
+}
+
+.time-box span {
+  display: block;
+  font-size: 64px;
+  font-weight: bold;
+  background: #333;
+  padding: 20px 30px;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(255, 255, 255, 0.72);
+}
+
+.time-box small {
+  display: block;
+  margin-top: 10px;
+  font-size: 14px;
+  color: #ccc;
+}
+</style>
+
+<script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  // Pega os valores definidos no editor
+  const targetDate = "{{ section.settings.target_date }}";
+  const targetTime = "{{ section.settings.target_time }}";
+
+  // Monta a data final combinando data e hora
+  const target = new Date(`${targetDate}T${targetTime}:00`);
+
+  const daysEl = document.getElementById("days");
+  const hoursEl = document.getElementById("hours");
+  const minutesEl = document.getElementById("minutes");
+  const secondsEl = document.getElementById("seconds");
+
+  function updateCountdown() {
+    const now = new Date().getTime();
+    const distance = target.getTime() - now;
+
+    if (distance <= 0) {
+      daysEl.textContent = "00";
+      hoursEl.textContent = "00";
+      minutesEl.textContent = "00";
+      secondsEl.textContent = "00";
+      return;
+    }
+
+    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((distance / (1000 * 60 * 60)) % 24);
+    const minutes = Math.floor((distance / (1000 * 60)) % 60);
+    const seconds = Math.floor((distance / 1000) % 60);
+
+    daysEl.textContent = String(days).padStart(2, "0");
+    hoursEl.textContent = String(hours).padStart(2, "0");
+    minutesEl.textContent = String(minutes).padStart(2, "0");
+    secondsEl.textContent = String(seconds).padStart(2, "0");
+  }
+
+  updateCountdown();
+  setInterval(updateCountdown, 1000);
+
+  // Loader messages
+  const messages = [
+    "Misturando tintas... e um pouco de alma.",
+    "Transformando o nada em expressão.",
+    "O vazio também tem cor.",
+    "Carregando imperfeições intencionais...",
+    "Cada pixel é uma pincelada de existência."
+  ];
+  let index = 0;
+  const loaderText = document.getElementById("loader-text");
+
+  setInterval(() => {
+    loaderText.textContent = messages[index];
+    index = (index + 1) % messages.length;
+  }, 50000);
+});
+</script>
+
+{% schema %}
+{
+  "name": "Countdown Timer",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Configurações do Countdown"
+    },
+    {
+      "type": "text",
+      "id": "target_date",
+      "label": "Data final (AAAA-MM-DD)",
+      "default": "2025-11-08"
+    },
+    {
+      "type": "text",
+      "id": "target_time",
+      "label": "Hora final (HH:MM no formato 24h)",
+      "default": "15:00"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Countdown Timer"
+    }
+  ]
+}
+{% endschema %}
